@@ -1,5 +1,5 @@
 Name:		srecord
-Version:	1.58
+Version:	1.59
 Release:	1
 Summary:	Manipulate EPROM load files
 Group:		Development/Other
