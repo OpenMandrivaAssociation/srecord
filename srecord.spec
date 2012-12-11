@@ -71,3 +71,14 @@ make sure
 %{_includedir}/srecord/
 %{_libdir}/libsrecord.so
 %{_libdir}/pkgconfig/srecord.pc
+
+
+%changelog
+* Fri Feb 10 2012 Alexander Khrukin <akhrukin@mandriva.org> 1.59-1
++ Revision: 772394
+- version update 1.5.9
+
+* Fri Dec 23 2011 Alexander Khrukin <akhrukin@mandriva.org> 1.58-1
++ Revision: 744827
+- imported package srecord
+
