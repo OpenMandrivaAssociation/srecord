@@ -1,12 +1,22 @@
-Name:		srecord
-Version:	1.59
-Release:	1
+%define major 0
+%define libname %mklibname %{name} %{major}
+%define devname %mklibname %{name} -d
+
 Summary:	Manipulate EPROM load files
-Group:		Development/Other
+Name:		srecord
+Version:	1.62
+Release:	1
 License:	GPLv3+ and LGPLv3+
-URL:		http://srecord.sourceforge.net/
+Group:		Development/Other
+Url:		http://srecord.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/srecord/srecord-%{version}.tar.gz
-BuildRequires:	diffutils, sharutils, groff, boost-devel, libgcrypt-devel, libtool
+BuildRequires:	diffutils
+BuildRequires:	ghostscript-common
+BuildRequires:	groff
+BuildRequires:	libtool
+BuildRequires:	sharutils
+BuildRequires:	boost-devel
+BuildRequires:	pkgconfig(libgcrypt)
 
 %description
 The SRecord package is a collection of powerful tools for manipulating
@@ -31,54 +41,59 @@ More than one filter may be applied to each input file.  Different filters
 may be applied to each input file.  All filters may be applied to all
 file formats.
 
-%package devel
-Summary:	Development headers and libraries for srecord
-Group:		Development/C
-Requires:	%{name} = %{version}-%{release}
+%files
+%doc LICENSE BUILDING README
+%{_bindir}/*
+%{_mandir}/man1/*.1*
+%{_mandir}/man5/*.5*
 
-%description devel
-Development headers and libraries for developing applications against
-srecord.
+#----------------------------------------------------------------------------
+
+%package -n %{libname}
+Summary:	Shared library for SRecord
+Group:		System/Libraries
+Conflicts:	%{name} < 1.62
+
+%description -n %{libname}
+Shared library for SRecord.
+
+%files -n %{libname}
+%{_libdir}/lib%{name}.so.%{major}*
+
+#----------------------------------------------------------------------------
+
+%package -n %{devname}
+Summary:	Development headers and libraries for SRecord
+Group:		Development/C
+Requires:	%{libname} = %{EVRD}
+Provides:	%{name}-devel = %{EVRD}
+Conflicts:	%{name}-devel < 1.62
+Obsoletes:	%{name}-devel < 1.62
+Conflicts:	%{name} < 1.62
+
+%description -n %{devname}
+Development headers and libraries for developing applications against SRecord.
+
+%files -n %{devname}
+%{_includedir}/srecord/
+%{_libdir}/libsrecord.so
+%{_libdir}/pkgconfig/srecord.pc
+%{_mandir}/man3/*.3*
+
+#----------------------------------------------------------------------------
 
 %prep
 %setup -q
 
 %build
-%configure
-# Fails to build in SMP machines using "make %{?_smp_mflags}"
+%configure2_5x --disable-static
 %make
 
 %install
 mkdir -p %{buildroot}%{_libdir}
 %makeinstall_std
-rm -rf %{buildroot}%{_libdir}/*.a
-rm -rf %{buildroot}%{_libdir}/*.la
-chmod +x %{buildroot}%{_libdir}/libsrecord.so.*
 
 %check
 # Test scripts requirements: cmp, diff, uudecode
 make sure
-
-%files
-%doc LICENSE BUILDING README
-%{_bindir}/*
-%{_libdir}/libsrecord.so.*
-%{_mandir}/man1/*.1*
-%{_mandir}/man3/*.3*
-%{_mandir}/man5/*.5*
-
-%files devel
-%{_includedir}/srecord/
-%{_libdir}/libsrecord.so
-%{_libdir}/pkgconfig/srecord.pc
-
-
-%changelog
-* Fri Feb 10 2012 Alexander Khrukin <akhrukin@mandriva.org> 1.59-1
-+ Revision: 772394
-- version update 1.5.9
-
-* Fri Dec 23 2011 Alexander Khrukin <akhrukin@mandriva.org> 1.58-1
-+ Revision: 744827
-- imported package srecord
 
