@@ -5,7 +5,7 @@
 Summary:	Manipulate EPROM load files
 Name:		srecord
 Version:	1.62
-Release:	1
+Release:	2
 License:	GPLv3+ and LGPLv3+
 Group:		Development/Other
 Url:		http://srecord.sourceforge.net/
