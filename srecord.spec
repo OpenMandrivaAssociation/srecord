@@ -8,7 +8,7 @@ Version:	1.62
 Release:	2
 License:	GPLv3+ and LGPLv3+
 Group:		Development/Other
-Url:		http://srecord.sourceforge.net/
+Url:		https://srecord.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/srecord/srecord-%{version}.tar.gz
 BuildRequires:	diffutils
 BuildRequires:	ghostscript-common
